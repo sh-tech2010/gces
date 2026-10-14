@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GCES — Gopal Computer Education Society | Govt. Regd.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   GCES PREMIUM — Design System
+═══════════════════════════════════════════ */
+:root{
+  --bg:#0a0a10;
+  --bg-2:#101018;
+  --bg-3:#15151f;
+  --card:rgba(255,255,255,.03);
+  --line:rgba(255,255,255,.08);
+  --gold:#c9a96a;
+  --gold-2:#e8d5a8;
+  --gold-glow:rgba(201,169,106,.25);
+  --text:#f5f2ea;
+  --muted:#9b97a3;
+  --serif:'Playfair Display',serif;
+  --sans:'Manrope',sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--sans);line-height:1.7;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--gold);color:var(--bg)}
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold),#8a724a);border-radius:10px}
+
+/* ── Preloader ── */
+#preloader{
+  position:fixed;inset:0;background:var(--bg);z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:24px;transition:opacity .8s var(--ease),visibility .8s;
+}
+#preloader.done{opacity:0;visibility:hidden}
+.loader-mark{
+  font-family:var(--serif);font-size:3rem;letter-spacing:.35em;
+  color:var(--gold);padding-left:.35em;
+  animation:pulse 1.6s ease infinite;
+}
+.loader-bar{width:180px;height:1px;background:var(--line);overflow:hidden}
+.loader-bar::after{
+  content:'';display:block;height:100%;width:50%;
+  background:var(--gold);animation:slide 1.2s var(--ease) infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+
+/* ── Layout helpers ── */
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+section{padding:120px 0;position:relative}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.72rem;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:22px;
+}
+.eyebrow::before{content:'';width:36px;height:1px;background:var(--gold)}
+h1,h2,h3{font-family:var(--serif);font-weight:500}
+.section-title{font-size:clamp(2.2rem,4.5vw,3.4rem);line-height:1.2;margin-bottom:18px}
+.section-title em{font-style:italic;color:var(--gold)}
+.section-sub{color:var(--muted);max-width:560px;font-size:1.05rem}
+
+/* ── Buttons ── */
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:10px;
+  padding:16px 36px;border-radius:2px;text-decoration:none;
+  font-family:var(--sans);font-size:.8rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;cursor:pointer;
+  transition:all .5s var(--ease);border:1px solid transparent;
+}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#a8894e);color:#0a0a10}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 20px 40px -10px var(--gold-glow)}
+.btn-ghost{border-color:var(--line);color:var(--text);background:transparent}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,169,106,.05)}
+
+/* ═══════════ NAVBAR ═══════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  transition:all .5s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:rgba(10,10,16,.85);backdrop-filter:blur(20px);
+  border-bottom-color:var(--line);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;padding:22px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.brand-mark{
+  width:46px;height:46px;border:1px solid var(--gold);
+  display:grid;place-items:center;font-family:var(--serif);
+  font-size:1rem;color:var(--gold);letter-spacing:.05em;
+  transition:all .5s var(--ease);
+}
+.brand:hover .brand-mark{background:var(--gold);color:var(--bg)}
+.brand-name{font-family:var(--serif);font-size:1.35rem;color:var(--text)}
+.brand-name span{color:var(--gold)}
+.brand-sub{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+.nav-links{display:flex;gap:38px;list-style:none}
+.nav-links a{
+  text-decoration:none;color:var(--muted);font-size:.78rem;
+  letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+  transition:color .3s;position:relative;padding:6px 0;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:0;width:0;height:1px;
+  background:var(--gold);transition:width .4s var(--ease);
+}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{padding:13px 26px}
+.burger{display:none;flex-direction:column;gap:6px;background:none;border:0;cursor:pointer;padding:8px}
+.burger span{width:26px;height:2px;background:var(--gold);transition:.4s var(--ease)}
+.burger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+/* ═══════════ HERO ═══════════ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:160px 0 100px;overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.orb{
+  position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;
+  animation:drift 14s ease-in-out infinite alternate;
+}
+.orb-1{width:520px;height:520px;background:radial-gradient(circle,rgba(201,169,106,.22),transparent 70%);top:-120px;right:-100px}
+.orb-2{width:420px;height:420px;background:radial-gradient(circle,rgba(90,80,180,.18),transparent 70%);bottom:-80px;left:-100px;animation-delay:-6s}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(40px,30px)}}
+.hero-grid{
+  position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:70px 70px;
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black,transparent);
+}
+.hero-inner{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:12px;padding:9px 20px;
+  border:1px solid var(--line);border-radius:40px;
+  font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--gold-2);margin-bottom:34px;background:var(--card);
+}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulse 2s infinite}
+.hero h1{font-size:clamp(2.8rem,5.5vw,4.6rem);line-height:1.12;margin-bottom:26px}
+.hero h1 em{font-style:italic;background:linear-gradient(120deg,var(--gold),var(--gold-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:1.1rem;max-width:520px;margin-bottom:44px}
+.hero-actions{display:flex;gap:18px;flex-wrap:wrap}
+.hero-visual{position:relative;display:flex;justify-content:center}
+.frame{
+  position:relative;width:100%;max-width:380px;aspect-ratio:4/5;
+  border:1px solid var(--line);background:var(--bg-2);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.frame::before{
+  content:'';position:absolute;inset:14px;border:1px solid rgba(201,169,106,.3);
+}
+.frame-inner{
+  text-align:center;padding:40px 30px;position:relative;z-index:1;
+}
+.frame-num{font-family:var(--serif);font-size:5.5rem;color:var(--gold);line-height:1}
+.frame-inner p{color:var(--muted);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;margin-top:14px}
+.float-tag{
+  position:absolute;background:rgba(16,16,24,.9);backdrop-filter:blur(10px);
+  border:1px solid var(--line);padding:14px 22px;border-radius:2px;
+  font-size:.75rem;letter-spacing:.1em;animation:float 5s ease-in-out infinite;
+}
+.float-tag b{display:block;font-family:var(--serif);font-size:1.3rem;color:var(--gold);font-weight:600}
+.tag-1{top:8%;left:-14%}
+.tag-2{bottom:12%;right:-12%;animation-delay:-2.5s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+/* ── Marquee ── */
+.marquee{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:26px 0;overflow:hidden;background:var(--bg-2);
+}
+.marquee-track{display:flex;gap:70px;width:max-content;animation:scroll 28s linear infinite}
+.marquee span{
+  font-family:var(--serif);font-size:1.15rem;color:var(--muted);
+  white-space:nowrap;display:flex;align-items:center;gap:70px;
+}
+.marquee span::after{content:'◆';color:var(--gold);font-size:.6rem}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ═══════════ STATS ═══════════ */
+.stats{padding:90px 0;border-bottom:1px solid var(--line)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;text-align:center}
+.stat h3{font-size:clamp(2.4rem,4vw,3.4rem);color:var(--gold);font-weight:600}
+.stat p{font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+
+/* ═══════════ ABOUT ═══════════ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-img{position:relative}
+.about-frame{
+  aspect-ratio:1/1.05;border:1px solid var(--line);background:var(--bg-2);
+  position:relative;overflow:hidden;
+}
+.about-frame::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 20%,rgba(201,169,106,.12),transparent 60%);
+}
+.about-frame-content{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;z-index:1;
+}
+.about-frame-content .big{font-family:var(--serif);font-size:6.5rem;color:var(--gold);line-height:1}
+.about-frame-content .small{font-size:.72rem;letter-spacing:.35em;text-transform:uppercase;color:var(--muted)}
+.exp-badge{
+  position:absolute;bottom:-28px;right:-28px;
+  background:linear-gradient(135deg,var(--gold),#a8894e);color:var(--bg);
+  padding:28px 34px;text-align:center;border-radius:2px;
+  box-shadow:0 25px 50px -12px var(--gold-glow);
+}
+.exp-badge b{display:block;font-family:var(--serif);font-size:2.2rem;line-height:1}
+.exp-badge span{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+.about-list{list-style:none;margin-top:34px;display:grid;gap:16px}
+.about-list li{
+  display:flex;gap:16px;align-items:flex-start;
+  padding-bottom:16px;border-bottom:1px solid var(--line);
+}
+.about-list .num{
+  font-family:var(--serif);color:var(--gold);font-size:1rem;
+  min-width:32px;padding-top:2px;
+}
+.about-list b{display:block;font-weight:600;font-size:.95rem}
+.about-list p{font-size:.85rem;color:var(--muted)}
+
+/* ═══════════ COURSES ═══════════ */
+.courses{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.courses-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:64px;gap:40px;flex-wrap:wrap}
+.course-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+.course-card{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  padding:40px 36px;transition:all .6s var(--ease);overflow:hidden;
+}
+.course-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease);
+}
+.course-card:hover{border-color:rgba(201,169,106,.4);transform:translateY(-8px);background:rgba(201,169,106,.04)}
+.course-card:hover::before{transform:scaleX(1)}
+.course-top{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:14px;margin-bottom:22px;
+}
+.course-num{font-family:var(--serif);font-size:.9rem;color:var(--gold);letter-spacing:.15em}
+.duration-pill{
+  font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;
+  font-weight:700;color:var(--gold);border:1px solid rgba(201,169,106,.45);
+  padding:7px 16px;border-radius:40px;white-space:nowrap;
+}
+.course-card h3{font-size:1.35rem;margin-bottom:20px;line-height:1.35}
+.syllabus{display:flex;flex-wrap:wrap;gap:10px}
+.chip{
+  font-size:.78rem;color:var(--muted);
+  border:1px solid var(--line);padding:7px 14px;border-radius:2px;
+  background:rgba(255,255,255,.02);transition:all .4s var(--ease);
+}
+.course-card:hover .chip{border-color:rgba(201,169,106,.3);color:var(--text)}
+.course-note{
+  margin-top:18px;font-size:.8rem;font-style:italic;color:var(--gold-2);
+  opacity:.85;
+}
+
+/* ═══════════ SOFTWARES ═══════════ */
+.softwares{text-align:center}
+.chip-cloud{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:14px;
+  margin-top:50px;max-width:860px;margin-left:auto;margin-right:auto;
+}
+.chip-cloud span{
+  font-family:var(--serif);font-size:1.05rem;color:var(--text);
+  border:1px solid var(--line);padding:14px 28px;border-radius:2px;
+  background:var(--card);transition:all .5s var(--ease);cursor:default;
+}
+.chip-cloud span:hover{
+  border-color:var(--gold);color:var(--gold);
+  transform:translateY(-4px);box-shadow:0 12px 24px -8px var(--gold-glow);
+}
+
+/* ═══════════ TEACH / SERVICES ═══════════ */
+.teach{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.teach-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:64px}
+.teach-card{
+  background:var(--card);border:1px solid var(--line);
+  padding:48px 42px;transition:all .6s var(--ease);
+}
+.teach-card:hover{border-color:rgba(201,169,106,.35);transform:translateY(-6px)}
+.teach-card h3{font-size:1.5rem;margin-bottom:28px;display:flex;align-items:center;gap:14px}
+.teach-card h3::before{content:'';width:10px;height:10px;background:var(--gold);transform:rotate(45deg)}
+.teach-list{list-style:none;display:grid;gap:14px}
+.teach-list li{
+  display:flex;gap:14px;align-items:baseline;
+  padding-bottom:14px;border-bottom:1px solid var(--line);
+  font-size:.95rem;color:var(--muted);
+}
+.teach-list li:last-child{border-bottom:0;padding-bottom:0}
+.teach-list .mark{color:var(--gold);font-size:.8rem}
+
+/* ═══════════ CTA BANNER ═══════════ */
+.cta-banner{
+  position:relative;text-align:center;padding:110px 0;overflow:hidden;
+}
+.cta-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,rgba(201,169,106,.1),transparent 65%);
+}
+.cta-banner h2{font-size:clamp(2.2rem,4.5vw,3.6rem);margin-bottom:20px}
+.cta-banner p{color:var(--muted);margin-bottom:44px;font-size:1.05rem}
+
+/* ═══════════ CONTACT ═══════════ */
+.contact{background:var(--bg-2);border-top:1px solid var(--line)}
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;margin-top:64px}
+.contact-item{
+  display:flex;gap:22px;padding:28px 0;border-bottom:1px solid var(--line);
+}
+.contact-item .icon{
+  width:50px;height:50px;min-width:50px;border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--gold);font-size:1.15rem;
+  transition:all .4s var(--ease);
+}
+.contact-item:hover .icon{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.contact-item b{display:block;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:700}
+.contact-item p{color:var(--muted);font-size:.95rem}
+.contact-form{
+  background:var(--card);border:1px solid var(--line);padding:52px;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.field{margin-bottom:22px}
+.field label{
+  display:block;font-size:.7rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-weight:600;
+}
+.field input,.field select,.field textarea{
+  width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);
+  padding:12px 2px;color:var(--text);font-family:var(--sans);font-size:.95rem;
+  transition:border-color .4s;outline:none;resize:vertical;
+}
+.field select{cursor:pointer}
+.field select option{background:var(--bg-3);color:var(--text)}
+.field input:focus,.field select:focus,.field textarea:focus{border-bottom-color:var(--gold)}
+.field input::placeholder,.field textarea::placeholder{color:#55515e}
+.contact-form .btn{width:100%;justify-content:center;margin-top:8px}
+
+/* ═══════════ FOOTER ═══════════ */
+footer{border-top:1px solid var(--line);background:var(--bg)}
+.footer-top{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:50px;
+  padding:90px 0 70px;
+}
+.footer-brand p{color:var(--muted);font-size:.92rem;margin-top:22px;max-width:300px}
+.footer-col h4{
+  font-family:var(--sans);font-size:.75rem;letter-spacing:.25em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:26px;font-weight:700;
+}
+.footer-col ul{list-style:none;display:grid;gap:14px}
+.footer-col a{
+  color:var(--muted);text-decoration:none;font-size:.9rem;
+  transition:all .3s;position:relative;
+}
+.footer-col a:hover{color:var(--gold);padding-left:10px}
+.footer-bottom{
+  border-top:1px solid var(--line);padding:28px 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.8rem;color:var(--muted);flex-wrap:wrap;gap:14px;
+}
+.footer-bottom a{color:var(--muted);text-decoration:none}
+.footer-bottom a:hover{color:var(--gold)}
+
+/* ═══════════ SCROLL REVEAL ═══════════ */
+.reveal{opacity:0;transform:translateY(40px);transition:all 1s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal[data-delay="1"]{transition-delay:.12s}
+.reveal[data-delay="2"]{transition-delay:.24s}
+.reveal[data-delay="3"]{transition-delay:.36s}
+
+/* ═══════════ RESPONSIVE ═══════════ */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:80px}
+  .hero-visual{display:none}
+  .course-grid{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr;gap:70px}
+  .teach-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .container{padding:0 20px}
+  section{padding:80px 0}
+  .nav-links{
+    position:fixed;inset:0;background:rgba(10,10,16,.97);backdrop-filter:blur(20px);
+    flex-direction:column;align-items:center;justify-content:center;gap:34px;
+    opacity:0;pointer-events:none;transition:opacity .5s var(--ease);
+  }
+  .nav-links.open{opacity:1;pointer-events:auto}
+  .nav-links a{font-size:1.1rem}
+  .burger{display:flex}
+  .nav-cta{display:none}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:36px}
+  .form-row{grid-template-columns:1fr}
+  .contact-form{padding:36px 26px}
+  .teach-card{padding:36px 26px}
+  .exp-badge{right:12px;bottom:-24px}
+  .footer-top{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ PRELOADER ═══ -->
+<div id="preloader">
+  <div class="loader-mark">GCES</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand">
+      <div class="brand-mark">G</div>
+      <div>
+        <div class="brand-name">G<span>C</span>ES</div>
+        <div class="brand-sub">Computer Education Society — Govt. Regd.</div>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#courses">Courses</a></li>
+      <li><a href="#softwares">Softwares</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-gold nav-cta">Enquire</a>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero" id="home">
+  <div class="hero-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="container hero-inner">
+    <div>
+      <div class="hero-badge"><span class="dot"></span> Govt. Registered — Admissions Open 2026</div>
+      <h1>Where Ambition Meets <em>Excellence</em> in Computing</h1>
+      <p>Gopal Computer Education Society has shaped careers through disciplined craft, mentorship, and a curriculum trusted by thousands of students.</p>
+      <div class="hero-actions">
+        <a href="#courses" class="btn btn-gold">Explore Courses</a>
+        <a href="#about" class="btn btn-ghost">Our Legacy</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="frame">
+        <div class="frame-inner">
+          <div class="frame-num">10</div>
+          <p>Signature Courses</p>
+        </div>
+      </div>
+      <div class="float-tag tag-1"><b>Govt. Regd.</b>Recognised Society</div>
+      <div class="float-tag tag-2"><b>12</b>Month Diploma</div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ MARQUEE ═══ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>DCA</span><span>CCA</span><span>Tally</span><span>Financial Accounting</span><span>Desktop Publishing</span><span>Programming</span><span>Webpage Designing</span><span>Multimedia</span>
+    <span>DCA</span><span>CCA</span><span>Tally</span><span>Financial Accounting</span><span>Desktop Publishing</span><span>Programming</span><span>Webpage Designing</span><span>Multimedia</span>
+  </div>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<section class="stats">
+  <div class="container stats-grid">
+    <div class="stat reveal"><h3><span class="counter" data-target="10">0</span>+</h3><p>Certified Courses</p></div>
+    <div class="stat reveal" data-delay="1"><h3><span class="counter" data-target="10">0</span>+</h3><p>Software Modules</p></div>
+    <div class="stat reveal" data-delay="2"><h3><span class="counter" data-target="12">0</span></h3><p>Max Months — Diploma</p></div>
+    <div class="stat reveal" data-delay="3"><h3><span class="counter" data-target="100">0</span>%</h3><p>Practical Training</p></div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="container about-grid">
+    <div class="about-img reveal">
+      <div class="about-frame">
+        <div class="about-frame-content">
+          <div class="big">GCES</div>
+          <div class="small">Gopal Computer Education Society</div>
+        </div>
+      </div>
+      <div class="exp-badge"><b>Govt.</b><span>Registered</span></div>
+    </div>
+    <div class="reveal" data-delay="1">
+      <div class="eyebrow">The Society</div>
+      <h2 class="section-title">An Institution Built on <em>Principle</em> & Purpose</h2>
+      <p class="section-sub">GCES is a Government Registered computer education society founded on a simple conviction — that computer literacy is a right, not a privilege. We deliver education with the rigour of an academy and the warmth of a community.</p>
+      <ul class="about-list">
+        <li><span class="num">01</span><div><b>Government Registered</b><p>A recognised society whose certificates carry weight with employers and institutions.</p></div></li>
+        <li><span class="num">02</span><div><b>Complete Curriculum</b><p>From Computer Fundamentals to Programming, Accounting, DTP and Multimedia — all under one roof.</p></div></li>
+        <li><span class="num">03</span><div><b>For Every Learner</b><p>School, college, professional and open-university students — plus ITI and industrial training.</p></div></li>
+        <li><span class="num">04</span><div><b>Beyond the Classroom</b><p>Project development, software development, website development, typing and printing services.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COURSES ═══ -->
+<section class="courses" id="courses">
+  <div class="container">
+    <div class="courses-head">
+      <div class="reveal">
+        <div class="eyebrow">Programmes</div>
+        <h2 class="section-title">Our <em>Courses</em></h2>
+      </div>
+      <p class="section-sub reveal" data-delay="1">Ten certified programmes — each a carefully composed journey from first principles to professional mastery.</p>
+    </div>
+    <div class="course-grid">
+
+      <div class="course-card reveal">
+        <div class="course-top">
+          <span class="course-num">01 — Certificate</span>
+          <span class="duration-pill">◷ 8 Months</span>
+        </div>
+        <h3>Certificate In Computer Application (CCA)</h3>
+        <div class="syllabus">
+          <span class="chip">Computer Fundamental</span>
+          <span class="chip">DOS</span>
+          <span class="chip">Windows + Internet</span>
+          <span class="chip">MS Word</span>
+          <span class="chip">MS Excel</span>
+          <span class="chip">MS Power Point</span>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-delay="1">
+        <div class="course-top">
+          <span class="course-num">02 — Diploma</span>
+          <span class="duration-pill">◷ 12 Months</span>
+        </div>
+        <h3>Diploma In Computer Application (DCA)</h3>
+        <div class="syllabus">
+          <span class="chip">CCA</span>
+          <span class="chip">MS Word (Advance)</span>
+          <span class="chip">MS Excel (Advance)</span>
+          <span class="chip">MS Access</span>
+          <span class="chip">HTML</span>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-delay="2">
+        <div class="course-top">
+          <span class="course-num">03 — Diploma</span>
+          <span class="duration-pill">◷ 12 Months</span>
+        </div>
+        <h3>Diploma In Desktop Publishing (DDTP)</h3>
+        <div class="syllabus">
+          <span class="chip">CDTP</span>
+          <span class="chip">Flash</span>
+          <span class="chip">Free Hand</span>
+        </div>
+      </div>
+
+      <div class="course-card reveal">
+        <div class="course-top">
+          <span class="course-num">04 — Diploma</span>
+          <span class="duration-pill">◷ 8 Months</span>
+        </div>
+        <h3>Diploma In Programming</h3>
+        <div class="syllabus">
+          <span class="chip">C</span>
+          <span class="chip">C++</span>
+          <span class="chip">Data Structure</span>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-delay="1">
+        <div class="course-top">
+          <span class="course-num">05 — Certificate</span>
+          <span class="duration-pill">◷ 4 Months</span>
+        </div>
+        <h3>Certificate In Webpage Designing</h3>
+        <div class="syllabus">
+          <span class="chip">HTML</span>
+          <span class="chip">DHTML</span>
+          <span class="chip">Dream Weaver</span>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-delay="2">
+        <div class="course-top">
+          <span class="course-num">06 — Certificate</span>
+          <span class="duration-pill">◷ 6 Months</span>
+        </div>
+        <h3>Certificate In Multimedia</h3>
+        <div class="syllabus">
+          <span class="chip">Adobe Photoshop</span>
+          <span class="chip">Pinnacle System</span>
+        </div>
+      </div>
+
+      <div class="course-card reveal">
+        <div class="course-top">
+          <span class="course-num">07 — Certificate</span>
+          <span class="duration-pill">◷ 6 Months</span>
+        </div>
+        <h3>Certificate In Financial Accounting (CFA)</h3>
+        <div class="syllabus">
+          <span class="chip">Windows + Internet</span>
+          <span class="chip">MS Excel</span>
+          <span class="chip">Tally</span>
+        </div>
+        <p class="course-note">One month more for non-commerce candidates</p>
+      </div>
+
+      <div class="course-card reveal" data-delay="1">
+        <div class="course-top">
+          <span class="course-num">08 — Diploma</span>
+          <span class="duration-pill">◷ 12 Months</span>
+        </div>
+        <h3>Diploma In Financial Accounting</h3>
+        <div class="syllabus">
+          <span class="chip">Tally / CFA</span>
+          <span class="chip">Tally (Advance)</span>
+          <span class="chip">FACT</span>
+          <span class="chip">Accord</span>
+          <span class="chip">Next Generation</span>
+        </div>
+        <p class="course-note">One month more for non-commerce candidates</p>
+      </div>
+
+      <div class="course-card reveal" data-delay="2">
+        <div class="course-top">
+          <span class="course-num">09 — Certificate</span>
+          <span class="duration-pill">◷ 3 Months</span>
+        </div>
+        <h3>Certificate In Tally</h3>
+        <div class="syllabus">
+          <span class="chip">Tally</span>
+        </div>
+        <p class="course-note">One month more for non-commerce candidates</p>
+      </div>
+
+      <div class="course-card reveal">
+        <div class="course-top">
+          <span class="course-num">10 — Certificate</span>
+          <span class="duration-pill">◷ 8 Months</span>
+        </div>
+        <h3>Certificate In Desktop Publishing (CDTP)</h3>
+        <div class="syllabus">
+          <span class="chip">Pagemaker</span>
+          <span class="chip">Corel Draw</span>
+          <span class="chip">Photoshop</span>
+          <span class="chip">Bengali / Hindi Language Script</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ OTHER SOFTWARES ═══ -->
+<section class="softwares" id="softwares">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow" style="justify-content:center">Beyond the Syllabus</div>
+      <h2 class="section-title">Other <em>Softwares</em> We Teach</h2>
+      <p class="section-sub" style="margin:0 auto">Individual software modules available for focused, specialised learning.</p>
+    </div>
+    <div class="chip-cloud reveal" data-delay="1">
+      <span>C</span>
+      <span>C++</span>
+      <span>Data Structure</span>
+      <span>Core Java</span>
+      <span>J2EE</span>
+      <span>J2EE with EJB</span>
+      <span>My SQL</span>
+      <span>PHP and My SQL</span>
+      <span>Visual Basic (VB)</span>
+      <span>AutoCAD</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WE TEACH / WE ALSO DONE ═══ -->
+<section class="teach" id="teach">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow">Our Commitment</div>
+      <h2 class="section-title">Who We Serve & <em>What We Deliver</em></h2>
+    </div>
+    <div class="teach-grid">
+      <div class="teach-card reveal" data-delay="1">
+        <h3>We Teach Computer For</h3>
+        <ul class="teach-list">
+          <li><span class="mark">◆</span>School Course (All Boards)</li>
+          <li><span class="mark">◆</span>College Course (All Universities)</li>
+          <li><span class="mark">◆</span>Professional Course</li>
+          <li><span class="mark">◆</span>Open School</li>
+          <li><span class="mark">◆</span>Open University</li>
+          <li><span class="mark">◆</span>ITI</li>
+          <li><span class="mark">◆</span>Industrial Computer Training etc.</li>
+        </ul>
+      </div>
+      <div class="teach-card reveal" data-delay="2">
+        <h3>We Also Done</h3>
+        <ul class="teach-list">
+          <li><span class="mark">◆</span>Project Develop</li>
+          <li><span class="mark">◆</span>Software Develop</li>
+          <li><span class="mark">◆</span>Website Develop</li>
+          <li><span class="mark">◆</span>Computer Typing</li>
+          <li><span class="mark">◆</span>Computer Printing</li>
+          <li><span class="mark">◆</span>Photo Printing etc.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA BANNER ═══ -->
+<section class="cta-banner">
+  <div class="container reveal">
+    <h2>Your Future Begins With a <em>Single Enquiry</em></h2>
+    <p class="section-sub" style="margin:0 auto 44px">Seats for the new batch are limited. Visit our centre and reserve yours today.</p>
+    <a href="#contact" class="btn btn-gold">Begin Your Journey</a>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow">Enquiries</div>
+      <h2 class="section-title">Visit Our <em>Centre</em></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="contact-item"><div class="icon">⌖</div><div><b>Address</b><p>GCES — Gopal Computer Education Society<br>[Your Full Address Here],<br>[City], [State] — [PIN Code]</p></div></div>
+        <div class="contact-item"><div class="icon">✉</div><div><b>Email</b><p>info@gces.edu.in</p></div></div>
+        <div class="contact-item"><div class="icon">◷</div><div><b>Hours</b><p>Monday — Saturday<br>8:00 AM to 8:00 PM</p></div></div>
+        <div class="contact-item"><div class="icon">❖</div><div><b>Recognition</b><p>Govt. Registered Society</p></div></div>
+      </div>
+      <form class="contact-form reveal" data-delay="1">
+        <div class="form-row">
+          <div class="field"><label>Full Name</label><input type="text" placeholder="Your name" required></div>
+          <div class="field"><label>Email Address</label><input type="email" placeholder="you@example.com" required></div>
+        </div>
+        <div class="field"><label>Course of Interest</label>
+          <select required>
+            <option value="" disabled selected>Select a course</option>
+            <option>Certificate In Computer Application (CCA)</option>
+            <option>Diploma In Computer Application (DCA)</option>
+            <option>Diploma In Desktop Publishing (DDTP)</option>
+            <option>Diploma In Programming</option>
+            <option>Certificate In Webpage Designing</option>
+            <option>Certificate In Multimedia</option>
+            <option>Certificate In Financial Accounting (CFA)</option>
+            <option>Diploma In Financial Accounting</option>
+            <option>Certificate In Tally</option>
+            <option>Certificate In Desktop Publishing (CDTP)</option>
+            <option>Other Software Module</option>
+          </select>
+        </div>
+        <div class="field"><label>Message</label><textarea rows="4" placeholder="Tell us about your goals..."></textarea></div>
+        <button type="submit" class="btn btn-gold">Submit Enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="brand"><div class="brand-mark">G</div><div><div class="brand-name">G<span>C</span>ES</div><div class="brand-sub">Computer Education Society — Govt. Regd.</div></div></a>
+        <p>Gopal Computer Education Society — building a digitally literate society, one disciplined mind at a time.</p>
+      </div>
+      <div class="footer-col"><h4>Navigate</h4><ul>
+        <li><a href="#home">Home</a></li><li><a href="#about">About</a></li>
+        <li><a href="#courses">Courses</a></li><li><a href="#contact">Contact</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Courses</h4><ul>
+        <li><a href="#courses">CCA & DCA</a></li><li><a href="#courses">Financial Accounting</a></li>
+        <li><a href="#courses">Desktop Publishing</a></li><li><a href="#courses">Programming</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Connect</h4><ul>
+        <li><a href="#">Facebook</a></li><li><a href="#">Instagram</a></li>
+        <li><a href="#">YouTube</a></li><li><a href="#">WhatsApp</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Gopal Computer Education Society. All rights reserved.</p>
+      <p>Govt. Registered Computer Education Society</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Preloader ── */
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('preloader').classList.add('done'), 600);
+});
+
+/* ── Navbar scroll state ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── Mobile menu ── */
+const burger = document.getElementById('burger');
+const navLinks = document.getElementById('navLinks');
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  navLinks.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(a =>
+  a.addEventListener('click', () => {
+    burger.classList.remove('open');
+    navLinks.classList.remove('open');
+  })
+);
+
+/* ── Scroll reveal ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── Animated counters ── */
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target, target = +el.dataset.target;
+    const duration = 1800, start = performance.now();
+    const tick = now => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(eased * target).toLocaleString();
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    counterObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+</script>
+</body>
+</html>
